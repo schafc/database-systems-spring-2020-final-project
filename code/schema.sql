@@ -24,3 +24,12 @@ CREATE TABLE EventLocation (
   lon NUMERIC(3,2),
   PRIMARY KEY (episode_id, event_id, location, location_index)
 );
+
+CREATE TABLE StationInformation (
+  name VARCHAR(255),
+  lat NUMERIC(3,2),
+  lon NUMERIC(3,2),
+  station_id INT, 
+  elevation INT,
+  PRIMARY KEY (station_id)
+);
