@@ -18,9 +18,9 @@ class SQLConnecterClass():
     def sortStatesByEvents(self):
         pass
         
-    # Query : Event air qualitiy information for an event_id
-    # Input : Event_id
-    # Output: Return values from AirQuality table for that event
+    # Query : Event air quality information for an event_type
+    # Input : Event_type
+    # Output: Return average values from AirQuality table for that event_type
     def eventAirInformation(self, event_type):
         pass
     
@@ -30,7 +30,8 @@ class SQLConnecterClass():
     def avgTempOfState(self, state):
         pass
     
-    # Query : 
-    # Input :
-    # Output:
-    def 
+    # Query : Display all information for all events (sort & join) 
+    # Input : 
+    # Output: 
+    def sortEvents(self):
+        pass
