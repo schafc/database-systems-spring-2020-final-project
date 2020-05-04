@@ -1,7 +1,7 @@
-DROP SCHEMA IF EXISTS Event CASCADE; 
-DROP SCHEMA IF EXISTS EventLocation CASCADE;
-DROP SCHEMA IF EXISTS StationInformation CASCADE; 
-DROP SCHEMA IF EXISTS AirQuality CASCADE;
+DROP TABLE IF EXISTS Event CASCADE; 
+DROP TABLE IF EXISTS EventLocation CASCADE;
+DROP TABLE IF EXISTS StationInformation CASCADE; 
+DROP TABLE IF EXISTS AirQuality CASCADE;
 
 CREATE TABLE Event (
     episode_id INT,
@@ -18,13 +18,14 @@ CREATE TABLE Event (
 );
 
 CREATE TABLE EventLocation (
-    episode_id INT REFERENCES Event, 
-    event_id INT REFERENCES Event, 
+    episode_id INT, 
+    event_id INT, 
     location_index INT, 
     location VARCHAR(255),
     lat NUMERIC(3,2),
     lon NUMERIC(3,2),
-    PRIMARY KEY (episode_id, event_id, location, location_index)
+    PRIMARY KEY (episode_id, event_id, location, location_index),
+    FOREIGN KEY (episode_id, event_id) REFERENCES Event (episode_id, event_id)
 );
   
 CREATE TABLE StationInformation (
@@ -37,17 +38,17 @@ CREATE TABLE StationInformation (
 );
 
 CREATE TABLE AirQuality (
-    station_id INT REFERENCES StationInformation,
+    station_id INT REFERENCES StationInformation (station_id),
     avg_temperature NUMERIC(3,2), 
     min_temperature NUMERIC(3,2),
     max_temperature NUMERIC(3,2),
-    visibiliy NUMERIC(3,2,),
+    visibiliy NUMERIC(3,2),
     precipitation NUMERIC(3,2),
     wind_speed NUMERIC(3,2),
     pressure NUMERIC(3,2)
 );
 
-CREATE INDEX station_id ON AirQuality;
-CREATE INDEX location ON EventLocation;
-CREATE INDEX episode_id ON Event;
-CREATE INDEX event_id ON Event; 
+CREATE INDEX station_id ON AirQuality (station_id);
+CREATE INDEX location ON EventLocation (location);
+CREATE INDEX episode_id ON Event (episode_id);
+CREATE INDEX event_id ON Event (event_id); 
