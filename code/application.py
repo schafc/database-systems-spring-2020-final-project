@@ -37,7 +37,12 @@ class SQLConnecterClass():
     # Input : state 
     # Output: return average temperature of that state
     def avgTempOfState(self, state):
-        pass
+        q = "SELECT state, AVG(avg_temperature) FROM ( SELECT * FROM ( SELECT * FROM Event WHERE state = %s ) AS X JOIN ClosestStation USING episode_id ) AS Y JOIN AirQuality USING station_id GROUP BY state;" % state
+        cur = self.conn.cursor()
+        cur.execute(q)
+        
+        for result in cur.fetchall():
+            print("The average temperature in %s in 2019 was %.2f." % result[0], result[1])
     
     # Query : Display all information for all events (sort & join) 
     # Input : 
