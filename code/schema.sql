@@ -18,7 +18,7 @@ CREATE TABLE Event (
 );
 
 CREATE TABLE EventLocation (
-    episode_int INT REFERENCES Event, 
+    episode_id INT REFERENCES Event, 
     event_id INT REFERENCES Event, 
     location_index INT, 
     location VARCHAR(255),
@@ -26,7 +26,7 @@ CREATE TABLE EventLocation (
     lon NUMERIC(3,2),
     PRIMARY KEY (episode_id, event_id, location, location_index)
 );
-
+  
 CREATE TABLE StationInformation (
     name VARCHAR(255),
     lat NUMERIC(3,2),
