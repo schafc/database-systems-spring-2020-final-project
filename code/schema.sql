@@ -27,6 +27,12 @@ CREATE TABLE EventLocation (
     PRIMARY KEY (episode_id, event_id, location, location_index),
     FOREIGN KEY (episode_id, event_id) REFERENCES Event (episode_id, event_id)
 );
+
+CREATE TABLE ClosestStation (
+  episode_id INT,
+  event_id INT,
+  station_id INT
+);
   
 CREATE TABLE StationInformation (
     name VARCHAR(255),
@@ -39,6 +45,7 @@ CREATE TABLE StationInformation (
 
 CREATE TABLE AirQuality (
     station_id INT REFERENCES StationInformation (station_id),
+    date_ DATE,
     avg_temperature NUMERIC(3,2), 
     min_temperature NUMERIC(3,2),
     max_temperature NUMERIC(3,2),
