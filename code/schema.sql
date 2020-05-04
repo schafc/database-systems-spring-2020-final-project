@@ -1,7 +1,7 @@
-DROP SCHEMA IF EXISTS Event CASCADE; 
-DROP SCHEMA IF EXISTS EventLocation CASCADE;
-DROP SCHEMA IF EXISTS StationInformation CASCADE; 
-DROP SCHEMA IF EXISTS AirQuality CASCADE;
+DROP TABLE IF EXISTS Event CASCADE; 
+DROP TABLE IF EXISTS EventLocation CASCADE;
+DROP TABLE IF EXISTS StationInformation CASCADE; 
+DROP TABLE IF EXISTS AirQuality CASCADE;
 
 CREATE TABLE Event (
     episode_id INT,
@@ -25,6 +25,12 @@ CREATE TABLE EventLocation (
     lat NUMERIC(3,2),
     lon NUMERIC(3,2),
     PRIMARY KEY (episode_id, event_id, location, location_index)
+);
+
+CREATE TABLE ClosestStation (
+  episode_id INT,
+  event_id INT,
+  station_id INT
 );
   
 CREATE TABLE StationInformation (
