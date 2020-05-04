@@ -46,3 +46,8 @@ CREATE TABLE AirQuality (
     wind_speed NUMERIC(3,2),
     pressure NUMERIC(3,2)
 );
+
+CREATE INDEX station_id ON AirQuality;
+CREATE INDEX location ON EventLocation;
+CREATE INDEX episode_id ON Event;
+CREATE INDEX event_id ON Event; 
