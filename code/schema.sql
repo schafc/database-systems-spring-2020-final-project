@@ -22,8 +22,8 @@ CREATE TABLE EventLocation (
     event_id INT, 
     location_index INT, 
     location VARCHAR(255),
-    lat NUMERIC(3,2),
-    lon NUMERIC(3,2),
+    lat NUMERIC(5,2),
+    lon NUMERIC(5,2),
     PRIMARY KEY (episode_id, event_id, location, location_index),
     FOREIGN KEY (episode_id, event_id) REFERENCES Event (episode_id, event_id)
 );
