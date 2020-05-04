@@ -1,3 +1,4 @@
 !/code/datasets/readme.md
 /code/datasets/*
 .DS_Store
+*.csv

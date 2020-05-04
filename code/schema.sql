@@ -27,32 +27,36 @@ CREATE TABLE EventLocation (
     PRIMARY KEY (episode_id, event_id, location, location_index),
     FOREIGN KEY (episode_id, event_id) REFERENCES Event (episode_id, event_id)
 );
+  
+CREATE TABLE StationInformation (
+    name VARCHAR(255),
+    lat NUMERIC(7,2),
+    lon NUMERIC(7,2),
+    station_id BIGINT, 
+    elevation NUMERIC(7,2),
+    PRIMARY KEY (station_id)
+);
 
 CREATE TABLE ClosestStation (
     episode_id INT,
     event_id INT,
-    station_id INT
-);
-  
-CREATE TABLE StationInformation (
-    name VARCHAR(255),
-    lat NUMERIC(3,2),
-    lon NUMERIC(3,2),
-    station_id INT, 
-    elevation INT,
-    PRIMARY KEY (station_id)
+    location VARCHAR(255),
+    location_index INT,
+    station_id INT,
+    FOREIGN KEY (episode_id, event_id, location, location_index) REFERENCES EventLocation (episode_id, event_id, location, location_index),
+    FOREIGN KEY (station_id) REFERENCES StationInformation (station_id)
 );
 
 CREATE TABLE AirQuality (
-    station_id INT REFERENCES StationInformation (station_id),
+    station_id BIGINT REFERENCES StationInformation (station_id),
     date_ DATE,
-    avg_temperature NUMERIC(3,2), 
-    min_temperature NUMERIC(3,2),
-    max_temperature NUMERIC(3,2),
-    visibiliy NUMERIC(3,2),
-    precipitation NUMERIC(3,2),
-    wind_speed NUMERIC(3,2),
-    pressure NUMERIC(3,2)
+    avg_temperature NUMERIC(7,2), 
+    min_temperature NUMERIC(7,2),
+    max_temperature NUMERIC(7,2),
+    visibiliy NUMERIC(7,2),
+    precipitation NUMERIC(7,2),
+    wind_speed NUMERIC(7,2),
+    pressure NUMERIC(7,2)
 );
 
 CREATE INDEX station_id ON AirQuality (station_id);
