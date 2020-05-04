@@ -1,6 +1,8 @@
 import psycopg2
 import gzip
 import os
+import io
+import csv
 
 connection_string = "host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'"
 dir = os.path.dirname(__file__)
@@ -14,12 +16,18 @@ def main():
     conn = psycopg2.connect(connection_string);
     cur = conn.cursor()
 
+    # Create schema
     cur.execute(open(os.path.join(dir, 'schema.sql'), 'r').read())
-
     conn.commit()
 
-    # with gzip.open('datasets/2019.tar.gz') as f_in:
-    # 	print(f_in)
+    print("Loading Storm Events...")
+    with gzip.open(os.path.join(dir, 'datasets/StormEvents_details-ftp_v1.0_d2019_c20200416.csv.gz'), 'rb') as f_in:
+        reader = csv.reader(io.TextIOWrapper(f_in, newline=""))
+        for row in list(reader)[1:]:
+            cur.execute("INSERT INTO Event (episode_id, event_id, state, year, month_name, event_type, begin_date_time, end_date_time, cz_timezone) \
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);", (row[6], row[7], row[8], row[10], row[11], row[12], row[17], row[19], row[18]));
+
+    conn.commit()
 
 
 

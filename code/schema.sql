@@ -1,5 +1,6 @@
 DROP TABLE IF EXISTS Event CASCADE; 
 DROP TABLE IF EXISTS EventLocation CASCADE;
+DROP TABLE IF EXISTS ClosestStation CASCADE;
 DROP TABLE IF EXISTS StationInformation CASCADE; 
 DROP TABLE IF EXISTS AirQuality CASCADE;
 
@@ -13,7 +14,6 @@ CREATE TABLE Event (
     begin_date_time DATE,
     end_date_time DATE, 
     cz_timezone VARCHAR(10),
-    episode_title VARCHAR(255),
     PRIMARY KEY (episode_id, event_id)
 );
 
