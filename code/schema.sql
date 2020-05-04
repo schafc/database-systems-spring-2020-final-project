@@ -38,6 +38,7 @@ CREATE TABLE StationInformation (
 
 CREATE TABLE AirQuality (
     station_id INT REFERENCES StationInformation,
+    date_ DATE,
     avg_temperature NUMERIC(3,2), 
     min_temperature NUMERIC(3,2),
     max_temperature NUMERIC(3,2),
