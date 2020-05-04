@@ -29,9 +29,9 @@ CREATE TABLE EventLocation (
 );
 
 CREATE TABLE ClosestStation (
-  episode_id INT,
-  event_id INT,
-  station_id INT
+    episode_id INT,
+    event_id INT,
+    station_id INT
 );
   
 CREATE TABLE StationInformation (
