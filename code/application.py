@@ -1,53 +1,60 @@
-import psycopg2
+from database import SQLConnecterClass
 
-class SQLConnecterClass():
-    
-    def __init__(self, connection_string):
-        # connection_string = "host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'"
-        self.conn = psycopg2.connect(connection_string)
-    
-    # Query : Retrieve events for a location 
-    # Input : location 
-    # Output: returns all events in that location 
-    def queryLocation(self, location):
-        pass
-        
-    # Query : sort states by # of events 
-    # Input : None
-    # Output: Output count of events for each state sorted 
-    def sortStatesByEvents(self):
-        q = "SELECT state, COUNT(event_id) count from Event GROUP BY state ORDER BY count DESC;"
-        cur = self.conn.cursor()
-        cur.execute(q)
-        count = 0
-        for rslt in cur.fetchall():
-        	count += 1
-        	print("#" + str(count) + ")")
-        	print("State:", rslt[0])
-        	print("Number of Events:", rslt[1])
-        	print()
-        
-    # Query : Event air quality information for an event_type
-    # Input : Event_type
-    # Output: Return average values from AirQuality table for that event_type
-    def eventAirInformation(self, event_type):
-        pass
-    
-    # Query : Average temperature of the state this year
-    # Input : state 
-    # Output: return average temperature of that state
-    def avgTempOfState(self, state):
-        q = "SELECT state, AVG(avg_temperature) FROM ( SELECT * FROM ( SELECT * FROM Event WHERE state = %s ) AS X JOIN ClosestStation USING episode_id ) AS Y JOIN AirQuality USING station_id GROUP BY state;" % state
-        cur = self.conn.cursor()
-        cur.execute(q)
-        
-        for result in cur.fetchall():
-            print("The average temperature in %s in 2019 was %.2f." % result[0], result[1])
-    
-    # Query : Display all information for all events (sort & join) 
-    # Input : 
-    # Output: 
-    def sortEvents(self):
-        pass
+def main():
+	running_program = True
+	database_search = SQLConnecterClass("host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'")
+	while(running_program == True):
+		user_input = input().lower()
+		if(user_input == "exit"):
+			running_program = False
+			print("exiting program")
+		elif(user_input == 'menu'):
+			print("To exit the program, enter \'exit\'")
+			print("------")
+			print("Queries - Enter \'query #\', where # is replaced with the number of the query desired, to select a query")
+			print("------")
+			print("Query 1:")
+			print("Query 2:")
+			print("Query 3:")
+			print("Query 4:")
+			print("Query 5:")
 
-SQLConnecterClass("host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'").sortStatesByEvents()
+		elif(user_input == 'query 1'):
+			print("Query 1: This query....")
+			print("Enter the name of the location you\'d like to search")
+			location = input().upper()
+			database_search.queryLocation(location)
+			print("Query complete, to view other possible queries, enter \'menu\'")
+
+		elif(user_input == 'query 2'):
+			print("Query 2: This query....")
+			database_search.sortStatesByEvents()
+			print("Query complete, to view other possible queries, enter \'menu\'")
+
+		elif(user_input == 'query 3'):
+			print("Query 3: This query....")
+			print("Enter the name of the event type you\'d like to search")
+			event_type = input().upper()
+			database_search.eventAirInformation(event_type)
+			print("Query complete, to view other possible queries, enter \'menu\'")
+
+		elif(user_input == 'query 4'):
+			print("Query 4: This query....")
+			print("Enter the name of the state you\'d like to search")
+			state = input().upper()
+			database_search.avgTempOfState(state)
+			print("Query complete, to view other possible queries, enter \'menu\'")
+
+		elif(user_input == 'query 5'):
+			print("Query 5: This query....")
+			database_search.sortEvents()
+			print("Query complete, to view other possible queries, enter \'menu\'")
+
+		else:
+			print("Invalid command. To see a list of commands, enter 'menu'")
+
+
+if __name__ == "__main__":
+	print("Welcome to the storm data and location weather data aplication")
+	print("To exit the program, enter \'exit\'. To see the list of queries, enter \'menu\'")
+	main()
