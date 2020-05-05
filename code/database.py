@@ -70,14 +70,13 @@ class SQLConnecterClass():
                          FROM Event \
                          WHERE event_type=%s \
                         ) AS X \
-                   JOIN ClosestStation ON episode_id \
+                   JOIN ClosestStation USING episode_id \
                    ) AS Y JOIN AirQuality USING station_id \
              GROUP BY event_type;" % (event_type,)
         cur = self.conn.cursor()
         cur.execute(q)
         
         print("AVG TEMPERATURE\tWIND SPEED\tAIR PRESSURE\tPRECIPITATION")
-        print(cur.fetchall())
         for rslt in cur.fetchall():
             print("{}°F\t{}\t{}\t{}".format(rslt[1],rslt[2],rslt[3],rslt[4]))
     
