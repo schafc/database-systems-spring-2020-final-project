@@ -22,7 +22,7 @@ def main():
 		elif(user_input == 'query 1'):
 			print("Query 1: This query....")
 			print("Enter the name of the location you\'d like to search")
-			location = input().upper()
+			location = input().upper().replace("'", "''") # protect from SQL injection
 			database_search.queryLocation(location)
 			print("Query complete, to view other possible queries, enter \'menu\'")
 
@@ -34,14 +34,14 @@ def main():
 		elif(user_input == 'query 3'):
 			print("Query 3: This query....")
 			print("Enter the name of the event type you\'d like to search")
-			event_type = input().upper()
+			event_type = input().upper().replace("'", "''") # protect from SQL injection
 			database_search.eventAirInformation(event_type)
 			print("Query complete, to view other possible queries, enter \'menu\'")
 
 		elif(user_input == 'query 4'):
 			print("Query 4: This query....")
 			print("Enter the name of the state you\'d like to search")
-			state = input().upper()
+			state = input().upper().replace("'", "''") # protect from SQL injection
 			database_search.avgTempOfState(state)
 			print("Query complete, to view other possible queries, enter \'menu\'")
 
