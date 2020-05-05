@@ -11,46 +11,48 @@ class SQLConnecterClass():
     # Output: returns all events in that location 
     def queryLocation(self, location):
         cur = self.conn.cursor()
-		q = "SELECT * FROM event e LEFT JOIN eventlocation el ON e.event_id = el.event_id WHERE el.location = '%s' ORDER BY state;" % (location)
-		try:
-			cur.execute(q)
-			rs = cur.fetchall()
-			if rs == []:
-				print("No data for that location")
-			else:
-				count = 0
-				for rslt in rs:
-					count += 1 
-					print("#" + str(count) + ")")
-					print("Episode ID:",rslt[0])
-					print("Event ID:",rslt[1])
-					print("State:",rslt[2])
-					print("Year:",rslt[3])
-					print("Month:",rslt[4])
-					print("Event Type:",rslt[5])
-					print("Begin Date:",rslt[6])
-					print("End Date:",rslt[7])
-					print()
+        q = "SELECT * FROM event e LEFT JOIN eventlocation el ON e.event_id = el.event_id WHERE el.location = '%s' ORDER BY state;" % (location)
+        try:
+            cur.execute(q)
+            rs = cur.fetchall()
+            if rs == []:
+                print("No data for that location")
+            else:
+                count = 0
+                for rslt in rs:
+                    count += 1 
+                    print("#" + str(count) + ")")
+                    print("Episode ID:",rslt[0])
+                    print("Event ID:",rslt[1])
+                    print("State:",rslt[2])
+                    print("Year:",rslt[3])
+                    print("Month:",rslt[4])
+                    print("Event Type:",rslt[5])
+                    print("Begin Date:",rslt[6])
+                    print("End Date:",rslt[7])
+                    print()
 
-		
+        except Exception as error:
+            print ("An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
 
-	# Query : sort states by # of events 
-	# Input : None
-	# Output: Output count of events for each state sorted 
-	def sortStatesByEvents(self):
-		cur = self.conn.cursor()
-		try:
-			cur.execute("SELECT state, COUNT(event_id) count FROM Event GROUP BY state ORDER BY count DESC;")
-			count = 0
-			for rslt in cur.fetchall():
-				count += 1
-				print("#" + str(count) + ")")
-				print("State:", rslt[0])
-				print("Number of Events:", rslt[1])
-				print()
-		except Exception as error:
-			print ("An exception has occured:", error)
-			print ("Exception TYPE:", type(error))
+    # Query : sort states by # of events 
+    # Input : None
+    # Output: Output count of events for each state sorted 
+    def sortStatesByEvents(self):
+        cur = self.conn.cursor()
+        try:
+            cur.execute("SELECT state, COUNT(event_id) count FROM Event GROUP BY state ORDER BY count DESC;")
+            count = 0
+            for rslt in cur.fetchall():
+                count += 1
+                print("#" + str(count) + ")")
+                print("State:", rslt[0])
+                print("Number of Events:", rslt[1])
+                print()
+        except Exception as error:
+            print ("An exception has occured:", error)
+            print ("Exception TYPE:", type(error))
 
     # Query : Event air quality information for an event_type
     # Input : Event_type
@@ -83,8 +85,10 @@ class SQLConnecterClass():
         cur.execute(query)
         count = 0
         for value in cur.fetchall():
-        	count += 1
-        	print("#" + str(count) + ")")
-        	print("Event Type:", value[0], "Date:", value[1], "State:", value[2], "Location:", value[3], "Closest Station:", value[4])
-        	print("\t Average temperature:", value[5],"Wind Speed:",value[6],"Precipitation quantity:", value[7], "Visibility distance:", value[8])
-        	print()
+            count += 1
+            print("#" + str(count) + ")")
+            print("Event Type:", value[0], "Date:", value[1], "State:", value[2], "Location:", value[3], "Closest Station:", value[4])
+            print("\t Average temperature:", value[5],"Wind Speed:",value[6],"Precipitation quantity:", value[7], "Visibility distance:", value[8])
+            print()
+
+
