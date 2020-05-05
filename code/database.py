@@ -48,4 +48,18 @@ class SQLConnecterClass():
     # Input : 
     # Output: 
     def sortEvents(self):
-        pass
+        query = """SELECT event.event_type,  AirQuality.date_, event.state, eventlocation.location, closestStation.station_id, AirQuality.avg_temperature, 
+        AirQuality.wind_speed, AirQuality.precipitation, AirQuality.visibiliy FROM event, eventlocation, airQuality, closestStation 
+        WHERE event.episode_id = eventlocation.episode_id and event.episode_id = closestStation.episode_id and event.event_id = eventlocation.event_id 
+        and event.event_id = closestStation.event_id and eventlocation.location_index = closestStation.location_index and  
+        closestStation.station_id = airQuality.station_id and event.begin_date_time = AirQuality.date_ 
+        Order by event.event_type,event.state,eventlocation.location,AirQuality.date_,closestStation.station_id;"""
+        cur = self.conn.cursor()
+        cur.execute(query)
+        count = 0
+        for value in cur.fetchall():
+        	count += 1
+        	print("#" + str(count) + ")")
+        	print("Event Type:", value[0], "Date:", value[1], "State:", value[2], "Location:", value[3], "Closest Station:", value[4])
+        	print("\t Average temperature:", value[5],"Wind Speed:",value[6],"Precipitation quantity:", value[7], "Visibility distance:", value[8])
+        	print()
