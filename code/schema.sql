@@ -37,7 +37,7 @@ CREATE TABLE StationInformation (
     PRIMARY KEY (station_id)
 );
 
-CREATE TABLE ClosestStation (
+CREATE TABLE NearbyStation (
     episode_id INT,
     event_id INT,
     location_index INT,
@@ -52,7 +52,7 @@ CREATE TABLE AirQuality (
     avg_temperature NUMERIC(7,2), 
     min_temperature NUMERIC(7,2),
     max_temperature NUMERIC(7,2),
-    visibiliy NUMERIC(7,2),
+    visibility NUMERIC(7,2),
     precipitation NUMERIC(7,2),
     wind_speed NUMERIC(7,2),
     pressure NUMERIC(7,2)
