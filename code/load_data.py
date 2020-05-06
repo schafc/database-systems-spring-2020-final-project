@@ -80,12 +80,12 @@ def main():
                 ORDER BY random() \
                 LIMIT 1000 \
             ) station \
-            ORDER BY ( 6371 * acos ( \
+            ORDER BY ( 6371 * acos ( least( greatest( \
                 cos ( radians( eventlocation.lat+0.02 ) ) \
                 * cos( radians( lat ) ) \
                 * cos( radians( lon ) - radians( eventlocation.lon+0.02 ) ) \
                 + sin( radians( eventlocation.lat+0.02 ) ) \
-                * sin( radians( lat ) ) ) ) ASC LIMIT 1 \
+                * sin( radians( lat ) ), -1), 1) ) ) ASC LIMIT 1 \
             ) AS station_id \
         FROM eventlocation;")
 
