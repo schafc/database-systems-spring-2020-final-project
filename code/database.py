@@ -58,7 +58,27 @@ class SQLConnecterClass():
     # Input : Event_type
     # Output: Return average values from AirQuality table for that event_type
     def eventAirInformation(self, event_type):
-        pass
+        print("Air Information for {}s:".format(event_type))
+
+        # could insert code here to prevent SQL injection if necessary
+        event_type = '\''+event_type+'\''
+        q = "SELECT event_type, AVG(avg_temperature), AVG(wind_speed), AVG(pressure), AVG(precipitation) \
+             FROM ( \
+                   SELECT * \
+                   FROM ( \
+                         SELECT * \
+                         FROM Event \
+                         WHERE event_type=%s \
+                        ) AS X \
+                   JOIN ClosestStation USING episode_id \
+                   ) AS Y JOIN AirQuality USING station_id \
+             GROUP BY event_type;" % (event_type,)
+        cur = self.conn.cursor()
+        cur.execute(q)
+        
+        print("AVG TEMPERATURE\tWIND SPEED\tAIR PRESSURE\tPRECIPITATION")
+        for rslt in cur.fetchall():
+            print("{}°F\t{}\t{}\t{}".format(rslt[1],rslt[2],rslt[3],rslt[4]))
     
     # Query : Average temperature of the state this year
     # Input : state 
