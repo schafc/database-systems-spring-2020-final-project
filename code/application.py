@@ -17,7 +17,7 @@ def main():
 			print("Query 2: Returns a sorted list of states (and other geographic regions, such as lakes/other bodies of water), sorted by the number of weather events that took place in that area")
 			print("Query 3: Takes a weather event type,and returns the average temperature, wind speed, pressure and precipitation for weather events of that type")
 			print("Query 4: Takes a state, or other geographic region, and returns the average temperature of that state/region for 2019")
-			print("Query 5: Returns a list of information for all events, including event location, average temp on day of event, wind speed, precipitation, visibility, and id of station data was taken at")
+			print("Query 5: Returns a list of information for all events, including event location, average temp on day of event, wind speed, precipitation, visibility, and id of the station data was taken at")
 
 		elif(user_input == 'query 1'):
 			print("Query 1: This query takes a user-input location (typically a town), and returns all weather events that took place at that location")
@@ -46,7 +46,7 @@ def main():
 			print("Query complete, to view other possible queries, enter \'menu\'")
 
 		elif(user_input == 'query 5'):
-			print("Query 5: This query returns a list of information for all events, including event location, average temp on day of event, wind speed, precipitation, visibility, and id of station data was taken at")
+			print("Query 5: This query returns a list of information for all events, including event location, average temp on day of event, wind speed, precipitation, visibility, and id of the station data was taken at")
 			database_search.sortEvents()
 			print("Query complete, to view other possible queries, enter \'menu\'")
 

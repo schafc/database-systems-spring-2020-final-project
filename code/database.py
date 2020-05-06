@@ -105,9 +105,17 @@ class SQLConnectorClass():
         	 GROUP BY state;" % (state,)
         cur = self.conn.cursor()
         cur.execute(q)
+        result = cur.fetchall()
         
-        result = cur.fetchall()[0]
-        print("The average temperature in {} in 2019 was {:.2f}°F".format(result[0], result[1]))
+        if (len(result) == 0):
+            print("ERROR: State \'{}\' not found in data. List of valid stats:".format(state))
+            q = "SELECT state FROM Event GROUP BY state;"
+            curr.execute(q)
+            for state in cur.fetchall():
+                print(state[0])
+        
+        else:
+            print("The average temperature in {} in 2019 was {:.2f}°F".format(result[0][0], result[1][1]))
     
     # Query : Display all information for all events (sort & join) 
     # Input : 
