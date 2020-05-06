@@ -1,8 +1,8 @@
-from database import SQLConnecterClass
+from database import SQLConnectorClass
 
 def main():
 	running_program = True
-	database_search = SQLConnecterClass("host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'")
+	database_search = SQLConnectorClass("host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'")
 	while(running_program == True):
 		user_input = input().lower()
 		if(user_input == "exit"):
