@@ -60,7 +60,7 @@ def main():
 
                     for row in readerlist:
                         sys.stdout.write("\r[" + "="*int(i/len(tar.getmembers())*50) + " "*int((len(tar.getmembers())-i)/len(tar.getmembers())*50) + "]")
-                        cur.execute("INSERT INTO AirQuality (station_id, date_, avg_temperature, min_temperature, max_temperature, visibiliy, precipitation, \
+                        cur.execute("INSERT INTO AirQuality (station_id, date_, avg_temperature, min_temperature, max_temperature, visibility, precipitation, \
                             wind_speed, pressure) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);",
                             (row[0], row[1], row[6], row[22], row[20], row[14], row[24], row[16], row[10]))
 
