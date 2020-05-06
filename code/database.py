@@ -1,6 +1,6 @@
 import psycopg2
 
-class SQLConnecterClass():
+class SQLConnectorClass():
     
     def __init__(self, connection_string):
         # connection_string = "host='localhost' dbname='dbms_final_project' user='dbms_project_user' password='dbms_password'"
@@ -58,57 +58,78 @@ class SQLConnecterClass():
     # Input : Event_type
     # Output: Return average values from AirQuality table for that event_type
     def eventAirInformation(self, event_type):
-        print("Air Information for {}s:".format(event_type))
-
-        # could insert code here to prevent SQL injection if necessary
-        event_type = '\''+event_type+'\''
-        q = "SELECT event_type, AVG(avg_temperature), AVG(wind_speed), AVG(pressure), AVG(precipitation) \
+        q = "SELECT event_type, AVG(avg_temperature), AVG(min_temperature), AVG(max_temperature), AVG(wind_speed), AVG(pressure), AVG(precipitation), AVG(visibility) \
              FROM ( \
                    SELECT * \
                    FROM ( \
                          SELECT * \
                          FROM Event \
-                         WHERE event_type=%s \
-                        ) AS X \
-                   JOIN ClosestStation USING episode_id \
-                   ) AS Y JOIN AirQuality USING station_id \
+                         WHERE event_type='%s' \
+                   ) AS t1 JOIN NearbyStation ON t1.episode_id=NearbyStation.episode_id \
+             ) AS t2 JOIN AirQuality on t2.station_id=AirQuality.station_id \
              GROUP BY event_type;" % (event_type,)
         cur = self.conn.cursor()
         cur.execute(q)
-        
-        print("AVG TEMPERATURE\tWIND SPEED\tAIR PRESSURE\tPRECIPITATION")
-        for rslt in cur.fetchall():
-            print("{}°F\t{}\t{}\t{}".format(rslt[1],rslt[2],rslt[3],rslt[4]))
+        result = cur.fetchall()
+
+        if (len(result) == 0):
+        	print("ERROR: Event \'{}\' not found in data. List of valid events:".format(event_type))
+        	q = "SELECT event_type FROM Event GROUP BY event_type;"
+        	cur.execute(q)
+        	for event in cur.fetchall():
+        		print(event[0])
+        else:
+        	result = result[0]
+	        print("AIR INFORMATION FOR {}".format(event_type.upper()))
+	        print("Average Temperature:\t {:.2f}°F".format(result[1]))
+	        print("Average Min Temperature: {:.2f}°F".format(result[2]))
+	        print("Average Min Temperature: {:.2f}°F".format(result[3]))
+	        print("Average Wind Speed:\t {:.2f} knots".format(result[4]))
+	        print("Average Air Pressure:\t {:.2f} psi".format(result[5]))
+	        print("Average Precipitation:\t {:.2f} in".format(result[6]))
+	        print("Average Visibility:\t {:.2f} mi".format(result[7]))
     
     # Query : Average temperature of the state this year
     # Input : state 
     # Output: return average temperature of that state
     def avgTempOfState(self, state):
-        q = "SELECT state, AVG(avg_temperature) FROM ( SELECT * FROM ( SELECT * FROM Event WHERE state = %s ) AS X JOIN ClosestStation USING episode_id ) AS Y JOIN AirQuality USING station_id GROUP BY state;" % state
+        q = "SELECT state, AVG(avg_temperature) \
+        	 FROM ( \
+        	 	   SELECT * \
+        	 	   FROM ( \
+        	 	   		SELECT * \
+        	 	   		FROM Event \
+        	 	   		WHERE state='%s' \
+        	 	   ) AS X JOIN NearbyStation ON X.episode_id=NearbyStation.episode_id \
+        	 ) AS Y JOIN AirQuality ON Y.station_id=AirQuality.station_id \
+        	 GROUP BY state;" % (state,)
         cur = self.conn.cursor()
         cur.execute(q)
         
-        for result in cur.fetchall():
-            print("The average temperature in %s in 2019 was %.2f." % result[0], result[1])
+        result = cur.fetchall()[0]
+        print("The average temperature in {} in 2019 was {:.2f}°F".format(result[0], result[1]))
     
     # Query : Display all information for all events (sort & join) 
     # Input : 
     # Output: 
     def sortEvents(self):
-        query = """SELECT event.event_type,  AirQuality.date_, event.state, eventlocation.location, closestStation.station_id, AirQuality.avg_temperature, 
-        AirQuality.wind_speed, AirQuality.precipitation, AirQuality.visibiliy FROM event, eventlocation, airQuality, closestStation 
-        WHERE event.episode_id = eventlocation.episode_id and event.episode_id = closestStation.episode_id and event.event_id = eventlocation.event_id 
-        and event.event_id = closestStation.event_id and eventlocation.location_index = closestStation.location_index and  
-        closestStation.station_id = airQuality.station_id and event.begin_date_time = AirQuality.date_ 
-        Order by event.event_type,event.state,eventlocation.location,AirQuality.date_,closestStation.station_id;"""
+        query = "SELECT event.event_type, AirQuality.date_, event.state, eventlocation.location, NearbyStation.station_id, AirQuality.avg_temperature, \
+        				AirQuality.wind_speed, AirQuality.precipitation, AirQuality.visibility \
+        		 FROM event, eventlocation, airQuality, NearbyStation \
+        		 WHERE event.episode_id=eventlocation.episode_id \
+        		 	AND event.episode_id=NearbyStation.episode_id \
+        		 	AND event.event_id=eventlocation.event_id \
+        			AND event.event_id = NearbyStation.event_id \
+        			AND eventlocation.location_index=NearbyStation.location_index \
+        			AND NearbyStation.station_id=airQuality.station_id \
+        			AND event.begin_date_time = AirQuality.date_ \
+        		 ORDER BY event.event_type,event.state,eventlocation.location,AirQuality.date_,NearbyStation.station_id;"
         cur = self.conn.cursor()
         cur.execute(query)
         count = 0
         for value in cur.fetchall():
             count += 1
             print("#" + str(count) + ")")
-            print("Event Type:", value[0], "Date:", value[1], "State:", value[2], "Location:", value[3], "Closest Station:", value[4])
-            print("\t Average temperature:", value[5],"Wind Speed:",value[6],"Precipitation quantity:", value[7], "Visibility distance:", value[8])
+            print("Event Type:", value[0], "\nDate:", value[1], "\nState:", value[2], "\nLocation:", value[3], "\nClosest Station:", value[4])
+            print("Average temperature:", value[5],"°F\nWind Speed:",value[6],"knots\nPrecipitation quantity:", value[7], "in\nVisibility distance:", value[8], "mi")
             print()
-
-
