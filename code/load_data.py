@@ -70,9 +70,9 @@ def main():
 
     conn.commit()
 
-    # Calculate Closest Stations
-    print("\nCalculating Closest Stations...")
-    cur.execute("INSERT INTO ClosestStation \
+    # Calculate Nearby Stations
+    print("\nCalculating Nearby Stations...")
+    cur.execute("INSERT INTO NearbyStation \
         SELECT eventlocation.episode_id, eventlocation.event_id, eventlocation.location_index, ( \
             SELECT station_id \
             FROM ( \
