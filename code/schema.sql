@@ -24,7 +24,7 @@ CREATE TABLE EventLocation (
     location VARCHAR(255),
     lat NUMERIC(5,2),
     lon NUMERIC(5,2),
-    PRIMARY KEY (episode_id, event_id, location, location_index),
+    PRIMARY KEY (episode_id, event_id, location_index),
     FOREIGN KEY (episode_id, event_id) REFERENCES Event (episode_id, event_id)
 );
   
@@ -40,10 +40,9 @@ CREATE TABLE StationInformation (
 CREATE TABLE ClosestStation (
     episode_id INT,
     event_id INT,
-    location VARCHAR(255),
     location_index INT,
-    station_id INT,
-    FOREIGN KEY (episode_id, event_id, location, location_index) REFERENCES EventLocation (episode_id, event_id, location, location_index),
+    station_id BIGINT,
+    FOREIGN KEY (episode_id, event_id, location_index) REFERENCES EventLocation (episode_id, event_id, location_index),
     FOREIGN KEY (station_id) REFERENCES StationInformation (station_id)
 );
 

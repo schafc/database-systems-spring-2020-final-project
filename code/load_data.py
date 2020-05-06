@@ -36,6 +36,7 @@ def main():
     print("Loading Storm Locations Data...")
     with gzip.open(os.path.join(dir, 'datasets/StormEvents_locations-ftp_v1.0_d2019_c20200416.csv.gz'), 'rb') as f_in:
         reader = csv.reader(io.TextIOWrapper(f_in, newline=""))
+        # for row in list(reader)[1:]:
         for row in list(reader)[1:]:
             cur.execute("INSERT INTO EventLocation (episode_id, event_id, location_index, location, lat, lon) \
                 VALUES (%s, %s, %s, %s, %s, %s);", (row[1], row[2], row[3], row[6], row[7], row[8]))
@@ -50,7 +51,8 @@ def main():
             i += 1
             with tar.extractfile(member.name) as file:
                 reader = csv.reader(io.TextIOWrapper(file, newline=""))
-                readerlist = list(reader)[1:]
+                # readerlist = list(reader)[1:]
+                readerlist = list(reader)[1::500]
                 
                 try:
                     cur.execute("INSERT INTO StationInformation (name, lat, lon, station_id, elevation) \
@@ -65,6 +67,29 @@ def main():
                     conn.commit()
                 except:
                     continue
+
+    conn.commit()
+
+    # Calculate Closest Stations
+    print("\nCalculating Closest Stations...")
+    cur.execute("INSERT INTO ClosestStation \
+        SELECT eventlocation.episode_id, eventlocation.event_id, eventlocation.location_index, ( \
+            SELECT station_id \
+            FROM ( \
+                SELECT * FROM stationinformation \
+                ORDER BY random() \
+                LIMIT 1000 \
+            ) station \
+            ORDER BY ( 6371 * acos ( \
+                cos ( radians( eventlocation.lat+0.02 ) ) \
+                * cos( radians( lat ) ) \
+                * cos( radians( lon ) - radians( eventlocation.lon+0.02 ) ) \
+                + sin( radians( eventlocation.lat+0.02 ) ) \
+                * sin( radians( lat ) ) ) ) ASC LIMIT 1 \
+            ) AS station_id \
+        FROM eventlocation;")
+
+    conn.commit()
 
 
 
