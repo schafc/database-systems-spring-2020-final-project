@@ -115,7 +115,7 @@ class SQLConnectorClass():
                 print(state[0])
         
         else:
-            print("The average temperature in {} in 2019 was {:.2f}°F".format(result[0][0], result[1][1]))
+            print("The average temperature in {} in 2019 was {:.2f}°F".format(result[0][0], result[0][1]))
     
     # Query : Display all information for all events (sort & join) 
     # Input : 
