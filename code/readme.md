@@ -16,8 +16,9 @@ Dataset Licensing
 License for Global Surface Summary of the Day - Government work, Cite this dataset when used as a source.
 Licence for NCDC Storm Events Database - Government work, Cite this dataset when used as a source.
 
-
----
+_____
+Video Presentation: https://drive.google.com/file/d/1mW8nqEEqWs50-IBAcBPlVRm68ULZdpcR/view?usp=sharing
+_____
 
 -Application Use Procedure
 
@@ -42,3 +43,6 @@ Query 3 takes a weather event type: examples include - hail, flood, tornado
 Query 4 takes a state or geographic region: examples include - Texas, Atlantic South, Gulf of Mexico
 
 Query 5 takes an integer representing the number of events to display within the query - 1, 25, 100
+_____
+Additional Notes: For the Surface Summary of the Day data set, the data for 1 of every 10 stations was used, due to the very large size of the dataset (12,000+ stations). This was done in order to make the load time of the data reasonable for the sake of the project.
+_____
