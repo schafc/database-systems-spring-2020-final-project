@@ -110,7 +110,7 @@ class SQLConnectorClass():
         if (len(result) == 0):
             print("ERROR: State \'{}\' not found in data. List of valid stats:".format(state))
             q = "SELECT state FROM Event GROUP BY state;"
-            curr.execute(q)
+            cur.execute(q)
             for state in cur.fetchall():
                 print(state[0])
         
