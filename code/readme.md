@@ -22,6 +22,6 @@ ____________________________________
 
 For these data sets, the data sets for 2019 were selected in order to have the most current and complete data, while also not overwhelming the system with way way too much data.
 
-4) After the data has been retrieved, run load_data.py. This will take a significant amount of time, mostly for the third section where it parses the surface summary data. Runtime varies a lot depending on the computer used, but its estimated to take approximately 15 minutes to load. It runs through 4 load steps, each which prints an indicator when it starts: Storm events data, storm locations data, station data and nearby stations.
+4) After the data has been retrieved, run load_data.py. This will take a significant amount of time, mostly for the third section where it parses the surface summary data. Runtime varies a lot depending on the computer used, but its estimated to take approximately 10-15 minutes to load. It runs through 4 load steps, each which prints an indicator when it starts: Storm events data, storm locations data, station data and nearby stations.
 
 5) Once the data has been loaded into the database, run application.py. This allows the user to select from a list of queries, which, as needed, will prompt the user to enter additional values which will be used to search the database for desired information. More detailed specifics can be found in the application, by entering ‘menu’ as the user input value.
