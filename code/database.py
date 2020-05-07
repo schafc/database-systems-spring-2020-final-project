@@ -118,9 +118,9 @@ class SQLConnectorClass():
             print("The average temperature in {} in 2019 was {:.2f}°F".format(result[0][0], result[0][1]))
     
     # Query : Display all information for all events (sort & join) 
-    # Input : 
-    # Output: 
-    def sortEvents(self):
+    # Input : # of events to be returned
+    # Output: information of # of events requested
+    def sortEvents(self, limit):
         query = "SELECT event.event_type, AirQuality.date_, event.state, eventlocation.location, NearbyStation.station_id, AirQuality.avg_temperature, \
         				AirQuality.wind_speed, AirQuality.precipitation, AirQuality.visibility \
         		 FROM event, eventlocation, airQuality, NearbyStation \
@@ -131,7 +131,7 @@ class SQLConnectorClass():
         			AND eventlocation.location_index=NearbyStation.location_index \
         			AND NearbyStation.station_id=airQuality.station_id \
         			AND event.begin_date_time = AirQuality.date_ \
-        		 ORDER BY event.event_type,event.state,eventlocation.location,AirQuality.date_,NearbyStation.station_id;"
+        		 ORDER BY random() LIMIT %s ;" % limit
         cur = self.conn.cursor()
         cur.execute(query)
         count = 0

@@ -47,7 +47,14 @@ def main():
 
 		elif(user_input == 'query 5'):
 			print("Query 5: This query returns a list of information for all events, including event location, average temp on day of event, wind speed, precipitation, visibility, and id of the station data was taken at")
-			database_search.sortEvents()
+			print("Enter the number of events you would like to view")
+			limit = input()
+			
+			while not limit.isnumeric():
+				print("Please enter an integer")
+				limit = input()
+			
+			database_search.sortEvents(limit)
 			print("Query complete, to view other possible queries, enter \'menu\'")
 
 		else:
