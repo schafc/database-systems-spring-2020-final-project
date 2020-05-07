@@ -64,7 +64,7 @@ class SQLConnectorClass():
                    FROM ( \
                          SELECT * \
                          FROM Event \
-                         WHERE event_type='%s' \
+                         WHERE event_type ILIKE '%s' \
                    ) AS t1 JOIN NearbyStation ON t1.episode_id=NearbyStation.episode_id \
              ) AS t2 JOIN AirQuality on t2.station_id=AirQuality.station_id \
              GROUP BY event_type;" % (event_type,)
