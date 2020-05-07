@@ -12,6 +12,11 @@ Project Datasets:
 Global Surface Summary of the Day: https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00516
 NCDC Storm Events Database: https://data.nodc.noaa.gov/cgi-bin/iso?id=gov.noaa.ncdc:C00510
 
+Dataset Licensing
+License for Global Surface Summary of the Day - Government work, Cite this dataset when used as a source.
+Licence for NCDC Storm Events Database - Government work, Cite this dataset when used as a source.
+
+
 ---
 
 -Application Use Procedure
