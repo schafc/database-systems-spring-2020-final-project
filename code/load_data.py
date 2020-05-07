@@ -47,19 +47,19 @@ def main():
     print("Loading Station Data...")
     with tarfile.open(os.path.join(dir, 'datasets/2019.tar.gz'), 'r:gz') as tar:
         i = 0
-        for member in tar.getmembers():
+        members = tar.getmembers()[::10] # Limit number of stations loaded
+        for member in members:
             i += 1
             with tar.extractfile(member.name) as file:
                 reader = csv.reader(io.TextIOWrapper(file, newline=""))
-                # readerlist = list(reader)[1:]
-                readerlist = list(reader)[1::500]
+                readerlist = list(reader)[1:]
                 
                 try:
                     cur.execute("INSERT INTO StationInformation (name, lat, lon, station_id, elevation) \
                         VALUES (%s, %s, %s, %s, %s);", (readerlist[0][5], readerlist[0][2], readerlist[0][3], readerlist[0][0], readerlist[0][4]))
 
+                    sys.stdout.write("\r[" + "="*int(i/len(members)*50) + " "*int((len(members)-i)/len(members)*50) + "]")
                     for row in readerlist:
-                        sys.stdout.write("\r[" + "="*int(i/len(tar.getmembers())*50) + " "*int((len(tar.getmembers())-i)/len(tar.getmembers())*50) + "]")
                         cur.execute("INSERT INTO AirQuality (station_id, date_, avg_temperature, min_temperature, max_temperature, visibility, precipitation, \
                             wind_speed, pressure) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s);",
                             (row[0], row[1], row[6], row[22], row[20], row[14], row[24], row[16], row[10]))
