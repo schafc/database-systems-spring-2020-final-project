@@ -27,6 +27,9 @@ For these data sets, the data sets for 2019 were selected in order to have the m
 5) Once the data has been loaded into the database, run application.py. This allows the user to select from a list of queries, which, as needed, will prompt the user to enter additional values which will be used to search the database for desired information. More detailed specifics can be found in the application, by entering ‘menu’ as the user input value.
 
 6) Three of the queries take user inputs, examples of which are provided below, to get the user started
+
 Query 1 takes a location (typically a town): examples include - Princeton, Andover, Memphis
+
 Query 3 taes a weather event type: examples include - hail, flood, tornado
+
 Query 4 takes a state or geographic region: examples include - Texas, Atlantic South, Gulf of Mexico
